@@ -1,0 +1,4 @@
+coalcamps.classes
+coalcamps.dao
+coalcamps.dao.hibernateImpls
+coalcamps.mainTest

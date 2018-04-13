@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Spring beans file. MJS 3.18 -Uses hibernate.cfg.xml file for database info. --> 
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<!-- dataSource is in hibernate file ... breaks up bean into database 
+		and domain specific Class parts.  Also done for demonstration purposes ... 
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/sp403hib435CoalCfg2?useSSL=false" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+	</bean>
+	-->
+	
+	<!-- Hibernate 5 Annotation SessionFactory Bean definition -->
+	<bean id="hibernate5AnnotatedSessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+		<!-- <property name="dataSource" ref="dataSource"/> 
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop> 
+                <!-  Use update (keeps data) instead of  create (recreate tables) 
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
+				<prop key="hibernate.show_sql">false</prop> 
+			</props>
+		</property> -->
+		<property name="annotatedClasses">
+			<list>
+				<value>coalcamps.classes.CoalCompany</value>
+				<value>coalcamps.classes.CoalCamp</value>
+				<value>coalcamps.classes.CampLease</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="compDaoBean" class="coalcamps.dao.hibernateImpls.CoalCompanyDAOImpl">
+		<property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory" />
+	</bean>
+	
+	<bean id="campDaoBean" class="coalcamps.dao.hibernateImpls.CoalCampDAOImpl">
+		<property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory" />
+	</bean>
+	
+	<bean id="leaseDaoBean" class="coalcamps.dao.hibernateImpls.CampLeaseDAOImpl">
+		<property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory" />
+	</bean>
+	
+	<!--  Cant have a bean if the class is abstract, which it currently is to access
+	    sessionFactory in pojos and getParameterizedType.  
+	<bean id="baseDaoBean" class="coalcamps.dao.hibernateImpls.BaseDAOImpl">
+		<property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory" />
+	</bean>  -->
+	
+</beans>
+	

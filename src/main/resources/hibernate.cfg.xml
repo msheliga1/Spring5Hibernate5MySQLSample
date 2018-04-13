@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- hibernate config file. MJS 4.18 -->
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">  
+        
+<hibernate-configuration>
+    <session-factory>
+       
+      <!-- Next four equate to a BasicDataSource in ApplicationContex.xml
+      	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"  -->   
+      <!-- <property name="connection.datasource">java:comp/env/jdbc/oracle</property> -->  
+      <property name = "hibernate.connection.driver_class"> com.mysql.jdbc.Driver </property>
+      <property name = "hibernate.connection.url">
+			jdbc:mysql://localhost:3306/sp502hib5212basedao2?useSSL=false </property>      
+      <property name = "hibernate.connection.username">  root </property>      
+      <property name = "hibernate.connection.password"> </property>
+
+	  <!--  Below equate to <property name="hibernateProperties"> in ApplicationContext.xml  -->
+      <property name = "hibernate.dialect"> org.hibernate.dialect.MySQL5Dialect</property>
+      <!-- Use update (keeps data) instead of  create (recreate tables) -->
+      <property name = "hibernate.hbm2ddl.auto">update</property>
+      <property name="hibernate.current_session_context_class">thread</property>
+	  <property name="hibernate.show_sql">true</property> 
+	  <!--  following needed for hibernate 5 table hibernate_sequence doesnt exist -->
+	  <property name="hibernate.id.new_generator_mappings">false</property>
+
+   </session-factory>
+</hibernate-configuration>
+	
+	
